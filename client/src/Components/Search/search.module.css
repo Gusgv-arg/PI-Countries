@@ -1,0 +1,19 @@
+.cont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.input{
+    margin: 20px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.btn{
+    background-color: rgb(130, 60, 4);;
+    color: white;
+    border-radius: 5px;
+    padding: 0px 30px 0px 30px;
+    height: 30px;
+    cursor: pointer;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}

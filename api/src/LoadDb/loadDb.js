@@ -1,5 +1,5 @@
 const axios = require("axios");
-const {Country, Activity} = require("../db")
+const {Country} = require("../db")
 
 //Function that changes original object to PI needs
 const changeObject = (obj) => {
@@ -15,6 +15,8 @@ const changeObject = (obj) => {
 				newObj.id = obj[i].cca3;
 			}
 			if (props === "name") newObj.name = obj[i].name.common;
+			if (newObj.name==="Åland Islands") newObj.name = "Aland Islands" 
+			if (newObj.name==="São Tomé and Príncipe") newObj.name = "Sao Tomé and Príncipe" 
 			if (props === "capital") newObj.capital = obj[i].capital[0];
 			if (props === "continents") newObj.continent = obj[i].continents[0];
 			if (props === "subregion") newObj.subregion = obj[i].subregion;
@@ -34,12 +36,6 @@ const loadDataBase = async ()=>{
 
 	const info = await axios.get("https://restcountries.com/v3/all")
 	const bulk = changeObject(info.data)
-	//console.log("BULKKKKK",bulk[0])
-
-	/* for (let i=0; i<bulk.length; i++){
-		let newContry = await Country.create(bulk[i])
-
-	} */
 	Country.bulkCreate(bulk);
 }
 

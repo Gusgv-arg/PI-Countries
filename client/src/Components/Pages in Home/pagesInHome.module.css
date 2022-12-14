@@ -1,0 +1,23 @@
+.allpages{
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    justify-content: center;
+}
+.inactive{
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 15px 5px 15px 5px;
+    cursor: pointer;
+}
+
+
+.active{
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 15px 5px 15px 5px;
+    cursor: pointer;
+    background-color: rgb(177, 179, 178);
+}

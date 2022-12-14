@@ -1,0 +1,17 @@
+.nav{
+display: flex;
+flex-direction:row-reverse;
+padding: 10px;
+background-color: rgb(130, 60, 4);
+font-weight: bold;
+}
+
+.comp{
+    margin: 5px 50px 5px;    
+}
+
+.navlink{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
