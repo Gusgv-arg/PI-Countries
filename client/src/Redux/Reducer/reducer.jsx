@@ -7,7 +7,9 @@ import {
 	FILTER_BY_CONTINENT,
 	FILTER_BY_ACTIVITY,
 	CREATE_ACTIVITY,
-	GET_ACTIVITIES
+	GET_ACTIVITIES,
+	SHOW_MESSAGE,
+	CLEAN_MESSAGE
 } from "../Actions/actions";
 
 import filteredActivity from "./filterActivity";
@@ -16,7 +18,8 @@ const initialState = {
 	countries: [],
 	countriesAux: [],
 	countryDetail: {},
-	activities:[]
+	activities:[],
+	message:""
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -31,12 +34,14 @@ const rootReducer = (state = initialState, action) => {
 				...state,
 				countries: action.payload,
 				countriesAux: action.payload,
+				message:""
 			};
 
 		case GET_COUNTRY_DETAIL:
 			return {
 				...state,
 				countryDetail: action.payload,
+				message:""
 			};
 
 		case GET_COUNTRY_BY_NAME:
@@ -44,6 +49,7 @@ const rootReducer = (state = initialState, action) => {
 				...state,
 				countriesAux: state.countries,
 				countries: action.payload,
+				message:""
 			};
 
 		case ORDER_BY_AZ:
@@ -71,6 +77,7 @@ const rootReducer = (state = initialState, action) => {
 			return {
 				...state,
 				countries: resultSort,
+				message:""
 			};
 
 		case ORDER_BY_POPULATION:
@@ -98,6 +105,7 @@ const rootReducer = (state = initialState, action) => {
 			return {
 				...state,
 				countries: resultSort2,
+				message:""
 			};
 
 		case FILTER_BY_CONTINENT:
@@ -106,7 +114,8 @@ const rootReducer = (state = initialState, action) => {
 			
 			return {
 				...state,
-				countries: filtered
+				countries: filtered,
+				message:""
 			}
 		
 		case FILTER_BY_ACTIVITY:
@@ -115,19 +124,34 @@ const rootReducer = (state = initialState, action) => {
 			
 			return {
 				...state,
-				countries: filtered2
+				countries: filtered2,
+				message:""
 			}
 		
 		case CREATE_ACTIVITY:
 			return {
 				...state,
-				activities: [...state.activities, action.payload]				
+				activities: [...state.activities, action.payload],
+				message: "Activity created successfully"				
 			} 
 		
 			case GET_ACTIVITIES:
 			return {
 				...state,
-				activities: action.payload
+				activities: action.payload,
+				message:""
+			}
+
+		case SHOW_MESSAGE:
+			return {
+				...state,
+				message: action.payload
+			}
+		
+		case CLEAN_MESSAGE:
+			return {
+				...state,
+				message:"",
 			}
 	}
 };

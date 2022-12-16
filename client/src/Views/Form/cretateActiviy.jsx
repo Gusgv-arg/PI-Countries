@@ -1,21 +1,25 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import NavBar from "../../Components/NavBar/navBar";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { createActivity, getAllCountries, orderByAz } from "../../Redux/Actions/actions";
+import {
+	cleanError,
+	createActivity,
+	orderByAz,
+} from "../../Redux/Actions/actions";
 import validate from "./validate";
-import style from "../Form/createActivity.module.css"
+import style from "../Form/createActivity.module.css";
+import Message from "../../Components/Message/message";
 
 function CreateActivity() {
 	const dispatch = useDispatch();
-	const history = useHistory()
 	
 	useEffect(() => {
-	 	dispatch(orderByAz("asc"));
+		dispatch(orderByAz("asc"));
 	}, [dispatch]);
 
 	const countries = useSelector((state) => state.countries);
+	const message = useSelector((state) => state.message);
 
 	const [form, setForm] = useState({
 		name: "",
@@ -73,117 +77,174 @@ function CreateActivity() {
 		});
 	};
 
-	const handlerSubmit = async (event) => {
+	const handlerSubmit = (event) => {
 		event.preventDefault();
 		dispatch(createActivity(form));
-		setForm({});
-		history.push("/home")
-	}; 
-	
+
+		setForm({
+			name: "",
+			difficulty: "",
+			season: "",
+			duration: "",
+			countries: [],
+		});
+
+	};
+
+	const handlerRetry = (event) => {
+		dispatch(cleanError());
+		setForm({
+			name: "",
+			difficulty: "",
+			season: "",
+			duration: "",
+			countries: [],
+		});
+	};
+
 	return (
 		<div>
 			<NavBar />
-			
+
 			<div className={style.cont}>
-			<br />
-			<br />
-			<h3>Create a New Activity</h3>
-			<br />
-			<form className={style.form} onSubmit={handlerSubmit}>
-				<div className={style.align}>
-					<label htmlFor="name">Activity Name: </label>
-					<input
-						placeholder="Type activity name..."
-						type="text"
-						name="name"
-						onChange={handlerChange}
-						value={form.name}
-						/>
-				</div>
-					{error.name && <span className={style.error}>{error.name}</span>}
-				
-				<div className={style.align}>
-					<label htmlFor="difficulty">Difficulty Level: </label>
-					<input
-						type="number"
-						min="1"
-						name="difficulty"
-						onChange={handlerChange}
-						value={form.difficulty}
-						/>
-				</div>
-					{error.difficulty && <span className={style.error}>{error.difficulty}</span>}
+				<br />
+				<br />
+				<h3>Create a New Activity</h3>
+				<br />
 
-				<div className={style.align}>
-					<label htmlFor="duration">Duration (weeks): </label>
-					<input
-						type="number"
-						min="1"
-						name="duration"
-						onChange={handlerChange}
-						value={form.duration}
-						/>
-				</div>
-					{error.duration && <span className={style.error}>{error.duration}</span>}
-
-				<div className={style.align}>
-					<label htmlFor="season">Season: </label>
-					<select name="season" value={form.season} onChange={handlerChange}>
-						<option value="" name="season" disabled>Choose a Season</option>
-						<option name="season" value="Autumn">Autumn</option>
-						<option name="season" value="Spring">Spring</option>
-						<option name="season" value="Summer">Summer</option>
-						<option name="season" value="Winter">Winter</option>					
-					</select>
-				</div>
-					{error.season && <span className={style.error}>{error.season}</span>}
-				
-				<div className={style.align}>
-					<label htmlFor="countries">Countries:</label>
-					<select
-						name="countries"
-						value={form.countries}
-						multiple={true}
-						onChange={handlerChange}
-						>
-						<option name="countries" disabled>Choose a Country</option>
-						{countries?.map((country) => (
-							<option key={country.id} name="countries" value={country.id}>
-								{country.name}
-							</option>
-						))}
-					</select>
-				</div>
-				<div className={style.align2}>
-					{form.countries &&
-						form.countries.map((country) => (
-							<li className={style.labels} key={country}>
-								<label >{country}</label>
-								<button className={style.btn3} name="countries" value={country} onClick={handleDelete}>
-									Delete
-								</button>
-							</li>
-						))}
-				</div>
-
-				<div className={style.btn}>
-					<button className={style.btn2}
-						
-						type="submit"
-						disabled={
-							!form.name || !form.difficulty || !form.season || !form.duration
-						}
-						name={form}
-						>
-						Create Activity
-					</button>
-					<br /> 
-					<br />
-				</div>
-					<div className={style.error}>
-						{!form.name || !form.difficulty || !form.season || !form.duration ? <span>Name, Difficulty, Duration && Season are mandatory</span> : ""}
+				<div className={style.message}>
+					<div className={style.messageText}>
+						{message && <Message message={message} />}
 					</div>
-			</form>
+					<div>
+						{message && <button className={style.messageBtn} onClick={handlerRetry}>Retry</button>}
+					</div>
+				</div>
+
+				<form className={style.form} onSubmit={handlerSubmit}>
+					<div className={style.align}>
+						<label htmlFor="name">Activity Name: </label>
+						<input
+							placeholder="Type activity name..."
+							type="text"
+							name="name"
+							onChange={handlerChange}
+							value={form.name}
+						/>
+					</div>
+					{error.name && <span className={style.error}>{error.name}</span>}
+
+					<div className={style.align}>
+						<label htmlFor="difficulty">Difficulty Level: </label>
+						<input
+							type="number"
+							min="1"
+							max="5"
+							name="difficulty"
+							onChange={handlerChange}
+							value={form.difficulty}
+						/>
+					</div>
+					{error.difficulty && (
+						<span className={style.error}>{error.difficulty}</span>
+					)}
+
+					<div className={style.align}>
+						<label htmlFor="duration">Duration (weeks): </label>
+						<input
+							type="number"
+							min="1"
+							name="duration"
+							onChange={handlerChange}
+							value={form.duration}
+						/>
+					</div>
+					{error.duration && (
+						<span className={style.error}>{error.duration}</span>
+					)}
+
+					<div className={style.align}>
+						<label htmlFor="season">Season: </label>
+						<select name="season" value={form.season} onChange={handlerChange}>
+							<option value="" name="season" disabled>
+								Choose a Season
+							</option>
+							<option name="season" value="Autumn">
+								Autumn
+							</option>
+							<option name="season" value="Spring">
+								Spring
+							</option>
+							<option name="season" value="Summer">
+								Summer
+							</option>
+							<option name="season" value="Winter">
+								Winter
+							</option>
+						</select>
+					</div>
+					{error.season && <span className={style.error}>{error.season}</span>}
+
+					<div className={style.align}>
+						<label htmlFor="countries">Countries:</label>
+						<select
+							name="countries"
+							value={form.countries}
+							multiple={true}
+							onChange={handlerChange}
+						>
+							<option name="countries" disabled>
+								Choose a Country
+							</option>
+							{countries?.map((country) => (
+								<option key={country.id} name="countries" value={country.id}>
+									{country.name}
+								</option>
+							))}
+						</select>
+					</div>
+					<div className={style.align2}>
+						{form.countries &&
+							form.countries.map((country) => (
+								<li className={style.labels} key={country}>
+									<label>{country}</label>
+									<button
+										className={style.btn3}
+										name="countries"
+										value={country}
+										onClick={handleDelete}
+									>
+										Delete
+									</button>
+								</li>
+							))}
+					</div>
+
+					<div className={style.btn}>
+						<button
+							className={style.btn2}
+							type="submit"
+							disabled={
+								!form.name || !form.difficulty || !form.season || !form.duration
+							}
+							name={form}
+						>
+							Create Activity
+						</button>
+						<br />
+						<br />
+					</div>
+					<div className={style.error}>
+						{!form.name ||
+						!form.difficulty ||
+						!form.season ||
+						!form.duration ? (
+							<span>Name, Difficulty, Duration && Season are mandatory</span>
+						) : (
+							""
+						)}
+					</div>
+				</form>				
 			</div>
 		</div>
 	);

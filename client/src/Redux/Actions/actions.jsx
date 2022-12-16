@@ -8,35 +8,57 @@ export const FILTER_BY_CONTINENT = "FILTER_BY_CONTINENT";
 export const FILTER_BY_ACTIVITY = "FILTER_BY_ACTIVITY";
 export const CREATE_ACTIVITY = "CREATE_ACTIVITY";
 export const GET_ACTIVITIES = "GET_ACTIVITIES";
+export const SHOW_MESSAGE = "SHOW_MESSAGE";
+export const CLEAN_MESSAGE = "CLEAN_MESSAGE";
 
 export const getActivities = () => {
 	return async function (dispatch) {
-		const activities = await axios.get("http://localhost:3001/activities");
-		return dispatch({
-			type: GET_ACTIVITIES,
-			payload: activities.data,
-		});
+		try {
+			const activities = await axios.get("http://localhost:3001/activities");
+			return dispatch({
+				type: GET_ACTIVITIES,
+				payload: activities.data,
+			});
+		} catch (error) {
+			return dispatch({
+				type: SHOW_MESSAGE,
+				payload: error.message,
+			});
+		}
 	};
 };
 
 export const getAllCountries = () => {
 	return async function (dispatch) {
-		const countriesDb = await axios.get("http://localhost:3001/countries");
-		return dispatch({
-			type: GET_ALL_COUNTRIES,
-			payload: countriesDb.data,
-		});
-		//.catch((error)=>alert("An error has occured, please try later"))
+		try {
+			const countriesDb = await axios.get("http://localhost:3001/countries");
+			return dispatch({
+				type: GET_ALL_COUNTRIES,
+				payload: countriesDb.data,
+			});
+		} catch (error) {
+			return dispatch({
+				type: SHOW_MESSAGE,
+				payload: error.message,
+			});
+		}
 	};
 };
 
 export const getCountryDetail = (id) => {
 	return async function (dispatch) {
-		const country = await axios.get(`http://localhost:3001/countries/${id}`);
-		return dispatch({
-			type: GET_COUNTRY_DETAIL,
-			payload: country.data,
-		});
+		try {
+			const country = await axios.get(`http://localhost:3001/countries/${id}`);
+			return dispatch({
+				type: GET_COUNTRY_DETAIL,
+				payload: country.data,
+			});
+		} catch (error) {
+			return dispatch({
+				type: SHOW_MESSAGE,
+				payload: error.message,
+			});
+		}
 	};
 };
 
@@ -51,7 +73,10 @@ export const getCountryByName = (name) => {
 				payload: country.data,
 			});
 		} catch (error) {
-			alert("Your country does not exist in our Database");
+			return dispatch({
+				type: SHOW_MESSAGE,
+				payload: error.response.data,
+			});
 		}
 	};
 };
@@ -91,14 +116,19 @@ export function createActivity(form) {
 				"http://localhost:3001/activities",
 				form
 			);
-			await dispatch({
+			dispatch({
 				type: CREATE_ACTIVITY,
 				payload: response.data,
-			})
-			console.log("x ejecutar getalcountries")
-			getAllCountries();
+			});
 		} catch (error) {
-			alert("Activity creation failed:");
+			return dispatch({
+				type: SHOW_MESSAGE,
+				payload: error.response.data,
+			});
 		}
 	};
+}
+
+export function cleanError() {
+	return { type: CLEAN_MESSAGE };
 }

@@ -28,7 +28,7 @@ function CountryDetail(props) {
 					<p>Subregion: {detail.subregion}</p>
 					<p>Area: {detail.area}</p>
 					<p>Population: {detail.population}</p>
-					<p>Activities: {detail.activities?.map((country)=><span>{country.name} </span>)}</p>
+					<p>Activities: <br/>{detail.activities?.map((country)=><span key={country.name}>{country.name} <br/></span>)}</p>
 				</div>
 
 				<div className={style.flag}>

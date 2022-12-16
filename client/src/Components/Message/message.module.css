@@ -1,0 +1,12 @@
+.message{
+    background-color: rgb(232, 237, 104);
+    color: rgb(56, 47, 47);
+    font-weight: bold;
+    font-size: 13px;
+    padding: 5px;
+    border: solid rgb(52, 18, 18);
+    border-radius: 5px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}

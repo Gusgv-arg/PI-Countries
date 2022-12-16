@@ -3,64 +3,79 @@ import CountryContainer from "../../Components/CountryContainer/countryContainer
 import NavBar from "../../Components/NavBar/navBar";
 import Pages from "../../Components/Pages in Home/pagesInHome";
 import SearchBar from "../../Components/Search/searchBar";
-import {filterByActivity, filterByContinent, getAllCountries ,orderByAz, orderByPopulation, getActivities} from "../../Redux/Actions/actions"
-import {useDispatch, useSelector} from "react-redux"
-import {useState} from "react"
-import style from "../Home/home.module.css"
-import {useEffect} from "react"
+import {
+	filterByActivity,
+	filterByContinent,
+	getAllCountries,
+	orderByAz,
+	orderByPopulation,
+	getActivities,
+} from "../../Redux/Actions/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import style from "../Home/home.module.css";
+import { useEffect } from "react";
+import Loader from "../../Components/Loader/loader";
+import Message from "../../Components/Message/message";
 
 function Home() {
-	
-	const countries = useSelector((state)=>state.countries)
-	const activities = useSelector((state)=>state.activities)
+	const [loading, setLoading] = useState(true);
 
-	const [currentPage, setCurrentPage ] = useState(1)
-	let countriesPerPage;
-	currentPage===1? countriesPerPage=9 : countriesPerPage=10 
-	const indexLastCountry = currentPage * countriesPerPage
-	const indexFirstCountry = indexLastCountry - countriesPerPage
-	const currentCountries = countries.slice(indexFirstCountry, indexLastCountry)
+	const countries = useSelector((state) => state.countries);
+	const activities = useSelector((state) => state.activities);
+	const message = useSelector((state) => state.message);
 
-	const [order, setOrder] = useState("")
+	const [currentPage, setCurrentPage] = useState(1);
+	const countriesPerPage = 9;
+	const indexLastCountry = currentPage * countriesPerPage;
+	const indexFirstCountry = indexLastCountry - countriesPerPage;
 
-	const paginado = (pageNumber)=>{
-		setCurrentPage(pageNumber)		
+	let currentCountries = countries.slice(indexFirstCountry, indexLastCountry);
+
+	if (currentPage === 1) {
+		currentCountries = countries.slice(indexFirstCountry, indexLastCountry + 1);
 	}
-	
-	const dispatch = useDispatch()
 
-	useEffect(()=>{
-		dispatch(getActivities())
-		dispatch(getAllCountries())
-	},[dispatch])
+	const [order, setOrder] = useState("");
 
-    const handlerClick = (event) => {
-		dispatch(getAllCountries())
+	const paginado = (pageNumber) => {
+		setCurrentPage(pageNumber);
 	};
 
+	const dispatch = useDispatch();
+	useEffect(() => {
+		setLoading(true);
+		dispatch(getAllCountries());
+		dispatch(getActivities());
+		setLoading(false);
+	}, [dispatch, loading]);
+
+	const handlerClick = (event) => {
+		dispatch(getAllCountries());
+	};
 
 	const handlerOrderAZ = (event) => {
-		dispatch(orderByAz(event.target.value))
-		setCurrentPage(1)
-		setOrder(`Ordered ${event.target.value}`) 
-		//setOrder(event.target.value) 
+		dispatch(orderByAz(event.target.value));
+		setCurrentPage(1);
+		//setOrder(`Ordered ${event.target.value}`);
+		setOrder(event.target.value)
 	};
 
 	const handlerOrderByPopulation = (event) => {
-		dispatch(orderByPopulation(event.target.value))
-		setCurrentPage(1)
-		setOrder(`Ordered ${event.target.value}`) 
-		//setOrder(event.target.value) 
+		dispatch(orderByPopulation(event.target.value));
+		setCurrentPage(1);
+		//setOrder(`Ordered ${event.target.value}`);
+		setOrder(event.target.value)
 	};
 
 	const handlerFilterByContinent = (event) => {
-		dispatch(filterByContinent(event.target.value))
-		setCurrentPage(1)
+		dispatch(filterByContinent(event.target.value));
+		setCurrentPage(1);
 	};
 
 	const handlerFilterByActivity = (event) => {
-		dispatch(filterByActivity(event.target.value))
-		setCurrentPage(1)
+		dispatch(filterByActivity(event.target.value));
+		setCurrentPage(1);
 	};
 
 	return (
@@ -70,9 +85,10 @@ function Home() {
 			</div>
 
 			<div className={style.filtercont}>
-
 				<div>
-					<button className={style.btn} onClick={handlerClick}>List All Countries</button>
+					<button className={style.btn} onClick={handlerClick}>
+						List All Countries
+					</button>
 				</div>
 
 				<div className={style.cont2}>
@@ -109,31 +125,23 @@ function Home() {
 
 				<div className={style.cont2}>
 					<h4>Filter by Activity</h4>
-					<select
-						name="activities"
-						onChange={handlerFilterByActivity}
-					>
+					<select name="activities" onChange={handlerFilterByActivity}>
 						<option value="all">All</option>
-						{activities?.map((acti)=>(
-							<option
-							key={acti.id}
-							name="activitie"
-							value={acti.name}
-							>
+						{activities?.map((acti) => (
+							<option key={acti.id} name="activitie" value={acti.name}>
 								{acti.name}
 							</option>
-							))
-						}						
+						))}
 
-						{
-						countries?.map((country)=> 
-							country.activity && <option value={country.activity}>{country.activity}</option>
-						)							
-						}
+						{countries?.map(
+							(country) =>
+								country.activity && (
+									<option value={country.activity}>{country.activity}</option>
+								)
+						)}
 					</select>
 				</div>
-			
-            </div>
+			</div>
 
 			<div>
 				<SearchBar />
@@ -141,16 +149,20 @@ function Home() {
 
 			<div>
 				<Pages
-				countriesPerPage={countriesPerPage}
-				countriesDb={countries.length}
-				paginado={paginado}
-				pageNumber={currentPage}				
+					countriesPerPage={countriesPerPage}
+					countriesDb={countries.length}
+					paginado={paginado}
+					pageNumber={currentPage}
 				/>
+			</div>
+			{loading && <Loader />}
+
+			<div className={style.message}>
+				{message && <Message message={message} />}
 			</div>
 
 			<div>
-				<CountryContainer
-				currentCountries={currentCountries} />
+				<CountryContainer currentCountries={currentCountries} />
 			</div>
 		</div>
 	);

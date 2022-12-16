@@ -51,7 +51,7 @@ const getCountries = async (req, res) => {
 			res.status(200).send(countries);
 		}
 	} catch (error) {
-		res.status(400).send(error.message);
+		res.status(404).send(error.message);
 	}
 };
 
