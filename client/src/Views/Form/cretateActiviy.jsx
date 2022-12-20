@@ -13,7 +13,7 @@ import Message from "../../Components/Message/message";
 
 function CreateActivity() {
 	const dispatch = useDispatch();
-	
+
 	useEffect(() => {
 		dispatch(orderByAz("asc"));
 	}, [dispatch]);
@@ -88,7 +88,6 @@ function CreateActivity() {
 			duration: "",
 			countries: [],
 		});
-
 	};
 
 	const handlerRetry = (event) => {
@@ -117,7 +116,11 @@ function CreateActivity() {
 						{message && <Message message={message} />}
 					</div>
 					<div>
-						{message && <button className={style.messageBtn} onClick={handlerRetry}>Retry</button>}
+						{message && (
+							<button className={style.messageBtn} onClick={handlerRetry}>
+								Retry
+							</button>
+						)}
 					</div>
 				</div>
 
@@ -240,11 +243,11 @@ function CreateActivity() {
 						!form.season ||
 						!form.duration ? (
 							<span>Name, Difficulty, Duration && Season are mandatory</span>
-						) : (
-							""
-						)}
+						)
+						: ("")
+						}
 					</div>
-				</form>				
+				</form>
 			</div>
 		</div>
 	);

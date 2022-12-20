@@ -1,0 +1,9 @@
+.btnland{
+    background-color: rgb(130, 60, 4);
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 10px;
+}

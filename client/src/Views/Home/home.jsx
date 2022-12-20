@@ -57,15 +57,15 @@ function Home() {
 	const handlerOrderAZ = (event) => {
 		dispatch(orderByAz(event.target.value));
 		setCurrentPage(1);
-		//setOrder(`Ordered ${event.target.value}`);
 		setOrder(event.target.value)
+		//setOrder(`Ordered ${event.target.value}`);
 	};
 
 	const handlerOrderByPopulation = (event) => {
 		dispatch(orderByPopulation(event.target.value));
 		setCurrentPage(1);
-		//setOrder(`Ordered ${event.target.value}`);
 		setOrder(event.target.value)
+		//setOrder(`Ordered ${event.target.value}`);
 	};
 
 	const handlerFilterByContinent = (event) => {
@@ -94,7 +94,7 @@ function Home() {
 				<div className={style.cont2}>
 					<h4>Alphabetical Order</h4>
 					<select onChange={handlerOrderAZ}>
-						<option value="all">All</option>
+						{/* <option value="all">All</option> */}
 						<option value="asc">A to Z</option>
 						<option value="desc">Z to A</option>
 					</select>
@@ -103,7 +103,7 @@ function Home() {
 				<div className={style.cont2}>
 					<h4>Order by Population</h4>
 					<select onChange={handlerOrderByPopulation}>
-						<option value="all">All</option>
+						{/* <option value="all">All</option> */}
 						<option value="asc">+ Population</option>
 						<option value="desc">- Population</option>
 					</select>
@@ -112,7 +112,7 @@ function Home() {
 				<div className={style.cont2}>
 					<h4>Filter by Continent</h4>
 					<select onChange={handlerFilterByContinent}>
-						<option value="all">All</option>
+						<option value="all">All</option> 
 						<option value="Africa">Africa</option>
 						<option value="Antarctica">Antarctica</option>
 						<option value="Asia">Asia</option>

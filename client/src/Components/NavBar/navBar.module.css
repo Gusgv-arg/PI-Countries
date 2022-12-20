@@ -9,6 +9,11 @@ font-weight: bold;
 .comp{
     margin: 5px 50px 5px;    
 }
+.comp1{
+    margin-top: -20px;
+    margin-left: 40px;
+    color: white;
+}
 
 .navlink{
     text-decoration: none;

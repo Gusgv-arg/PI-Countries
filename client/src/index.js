@@ -5,14 +5,17 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom" 
 import {Provider} from "react-redux"
 import store from "./Redux/Store/store"
+import {Auth0Provider} from "@auth0/auth0-react"
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />   
-      </BrowserRouter>
-    </Provider>
+    <Auth0Provider domain="dev-bv6l6tz0femkxsij.us.auth0.com" clientId='2tRzFhesnUu3k19ubOO3f8Y8c0lbbiGf' redirectUri={window.location.origin}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />   
+        </BrowserRouter>
+      </Provider>
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

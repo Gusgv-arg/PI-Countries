@@ -3,23 +3,30 @@ import Home from "./Views/Home/home"
 import Landing from "./Views/Landing/landing"
 import CreateActivity from './Views/Form/cretateActiviy';
 import CountryDetail from './Views/Detail/countryDetail';
+import error404 from "./Components/Error/error404";
 import style from "./App.module.css"
+import { Switch } from "react-router-dom";
 
 function App() {
   return (
+    
     <div className={style.App}>
     
-    <Route exact path="/" component={Landing} />
+    <Switch>
 
-    <Route path="/home" >
-      <Home/>
-    </Route>
+      <Route exact path="/" component={Landing} />
 
-    <Route path="/createactivity" render={()=><CreateActivity /> } />
+      <Route path="/home" >
+        <Home/>
+      </Route>
 
-    <Route path="/countrydetails/:id" component={CountryDetail} />
+      <Route path="/createactivity" render={()=><CreateActivity /> } />
 
-    {/*falta la ruta para 404 NOT FOUND */ }
+      <Route path="/countrydetails/:id" component={CountryDetail} />
+      
+      <Route path="*" component={error404} />   
+
+    </Switch>
     
     </div>
   );

@@ -1,0 +1,14 @@
+.img{
+    height: 8vh;
+}
+
+.text{
+    font-size: 13px;
+    margin: 30px 0 5px 5px;
+}
+.cont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}

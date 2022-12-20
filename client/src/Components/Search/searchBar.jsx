@@ -1,7 +1,7 @@
-import React  from "react"
+import React, { useEffect }  from "react"
 import {useState} from "react"
 import {useDispatch} from "react-redux"
-import {getCountryByName} from "../../Redux/Actions/actions"
+import {getAllCountries, getCountryByName} from "../../Redux/Actions/actions"
 import style from "../Search/search.module.css"
 
 function SearchBar(props){
@@ -15,9 +15,13 @@ function SearchBar(props){
     const dispatch = useDispatch()
     
     const handleClick=(event)=>{
-        dispatch(getCountryByName(search))
+        dispatch(getAllCountries())
         setSearch("")
     }
+
+    useEffect(()=>{
+        dispatch(getCountryByName(search))
+    },[dispatch, search])
     
 
     return (
@@ -29,7 +33,7 @@ function SearchBar(props){
             onChange={searchHandler}
             className={style.input}
             />
-            <button className={style.btn} onClick={handleClick}>Search</button>
+            <button className={style.btn} onClick={handleClick}>Refresh</button>
 
         </div>
 

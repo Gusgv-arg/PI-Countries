@@ -1,0 +1,12 @@
+.error404{
+    font-size: 40px;
+    color: white;
+    font-weight: bold;
+    background-color: red;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 45vh;    
+    border: solid rgb(153, 141, 141)
+}

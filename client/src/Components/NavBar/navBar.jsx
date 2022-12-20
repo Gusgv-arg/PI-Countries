@@ -2,10 +2,14 @@
 import React from "react"
 import {NavLink} from "react-router-dom"
 import style from "../NavBar/navBar.module.css"
+import Profile from "../Logging/profile"
 
 function NavBar (){
     return (
         <div className={style.nav}>
+            <div className={style.comp1}>
+                <Profile/>
+            </div>
             <div className={style.comp}>
                 <NavLink to="/createactivity" className={style.navlink}>
                     <p>Create Activity</p>
